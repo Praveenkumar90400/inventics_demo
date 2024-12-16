@@ -1,27 +1,17 @@
-FROM node:18-alpine AS build-stage  # Use a Node.js base image
+# Stage 1: Build stage
+FROM node:18-alpine AS build-stage
 
 WORKDIR /app
-
-# Copy package*.json and package-lock.json 
-COPY package*.json ./ package-lock.json 
-
-# Install dependencies
+COPY package*.json ./
 RUN npm install
-
-# Copy the rest of the application code
 COPY . .
 
-# Build the application 
-RUN npm run build 
+RUN npm run build
 
-# --- Stage for the final image ---
+# Stage 2: Production stage
+FROM nginx:alpine AS production-stage
 
-FROM nginx:latest-alpine  
+COPY --from=build-stage /app/build /usr/share/nginx/html
 
-WORKDIR /usr/share/nginx/html
-
-# Copy the built application from the build stage
-COPY --from=build-stage /app/build . 
-
-# Expose the port
 EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]

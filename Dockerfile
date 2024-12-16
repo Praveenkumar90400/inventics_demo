@@ -8,12 +8,12 @@ RUN npm install
 
 COPY . .
 
-RUN npm run build 
+RUN npm run build
+
+# --- Stage for the final image ---
 
 FROM nginx:latest-alpine
 
-WORKDIR /usr/share/nginx/html
-
-COPY --from=build-stage /app/build . 
+COPY --from=build-stage /app/dist /usr/share/nginx/html
 
 EXPOSE 80

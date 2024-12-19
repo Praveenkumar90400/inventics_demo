@@ -1,43 +1,37 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: Deployment # Kubernetes resource kind we are creating
 metadata:
- namespace: webapps
+  namespace: webapps
   name: tiktakapp-deployment
-  labels:
-    app: tiktakapp
 spec:
-  replicas: 2  # Number of pods to run
   selector:
     matchLabels:
       app: tiktakapp
+  replicas: 2 # Number of replicas that will be created for this deployment
   template:
     metadata:
       labels:
         app: tiktakapp
     spec:
       containers:
-      - name: tiktakapp-container
-        image: praveenkumar90400/tiktakapp:latest
-        ports:
-        - containerPort: 80
-        resources:
-          requests:
-            memory: "128Mi"
-            cpu: "250m"
-          limits:
-            memory: "256Mi"
-            cpu: "500m"
+        - name: tiktakapp
+          image: praveenkumar90400/tiktakapp:latest # Image that will be used to containers in the cluster
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80 # The port that the container is running on in the cluster
+
+
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: tiktakapp-service
-  labels:
-    app: tiktakapp
+
+apiVersion: v1 # Kubernetes API version
+kind: Service # Kubernetes resource kind we are creating
+metadata: # Metadata of the resource kind we are creating
+  name: tiktakapp-ssvc
 spec:
-  type: LoadBalancer  # Use LoadBalancer to expose to the internet
-  ports:
-  - port: 80
-    targetPort: 80
   selector:
     app: tiktakapp
+  ports:
+    - protocol: "TCP"
+      port: 80
+      targetPort: 80
+  type: LoadBalancer # type of the service.

@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment # Kubernetes resource kind we are creating
 metadata:
+  namespace: webapps
   name: tiktakapp-deployment
 spec:
   selector:
@@ -17,7 +18,7 @@ spec:
           image: praveenkumar90400/tiktakapp:latest # Image that will be used to containers in the cluster
           imagePullPolicy: Always
           ports:
-            - containerPort: 8080 # The port that the container is running on in the cluster
+            - containerPort: 80 # The port that the container is running on in the cluster
 
 
 ---
@@ -31,6 +32,6 @@ spec:
     app: tiktakapp
   ports:
     - protocol: "TCP"
-      port: 8080
-      targetPort: 8080 
+      port: 80
+      targetPort: 80
   type: LoadBalancer # type of the service.

@@ -1,37 +1,31 @@
 apiVersion: apps/v1
-kind: Deployment # Kubernetes resource kind we are creating
+kind: Deployment
 metadata:
- namespace: webapps
-  name: tiktakapp-deployment
+  name: my-node-app
 spec:
+  replicas: 1 # Adjust the number of replicas based on your needs
   selector:
     matchLabels:
-      app: tiktakapp
-  replicas: 2 # Number of replicas that will be created for this deployment
+      app: my-node-app
   template:
     metadata:
       labels:
-        app: tiktakapp
+        app: my-node-app
     spec:
       containers:
-        - name: tiktakapp
-          image: praveenkumar90400/tiktakapp:latest # Image that will be used to containers in the cluster
-          imagePullPolicy: Always
-          ports:
-            - containerPort: 8080 # The port that the container is running on in the cluster
-
-
+      - name: my-node-app-container
+        image: praveenkumar90400/tiktakapp:latest # Replace with your Docker image name
+        ports:
+        - containerPort: 8080
 ---
-
-apiVersion: v1 # Kubernetes API version
-kind: Service # Kubernetes resource kind we are creating
-metadata: # Metadata of the resource kind we are creating
-  name: tiktakapp-ssvc
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-node-app-service
 spec:
   selector:
-    app: tiktakapp
+    app: my-node-app
   ports:
-    - protocol: "TCP"
-      port: 80
-      targetPort: 8080 
-  type: LoadBalancer # type of the service.
+  - protocol: TCP
+    port: 80
+    targetPort: 8080

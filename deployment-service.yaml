@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment # Kubernetes resource kind we are creating
 metadata:
-  namespace: webapps
+ namespace: webapps
   name: tiktakapp-deployment
 spec:
   selector:
@@ -32,6 +32,6 @@ spec:
     app: tiktakapp
   ports:
     - protocol: "TCP"
-      port: 8080
-      targetPort: 8080
+      port: 80
+      targetPort: 8080 
   type: LoadBalancer # type of the service.

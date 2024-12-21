@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tiktakapp-deployment
+  name: inventapp-deployment
 spec:
   replicas: 3 # Number of Nginx pods to run
   selector:
     matchLabels:
-      app: tiktak
+      app: invent
   template:
     metadata:
       labels:
-        app: tiktak
+        app: invent
     spec:
       containers:
-      - name: tiktak
-        image: praveenkumar90400/tiktakapp:latest
+      - name: invent
+        image: praveenkumar90400/inventapp:latest
         ports:
         - containerPort: 80

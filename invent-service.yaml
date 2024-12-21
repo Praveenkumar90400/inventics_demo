@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: tiktak-service
+  name: invent-service
 spec:
   selector:
-    app: tiktak
+    app: invent
   ports:
   - protocol: TCP
     port: 80

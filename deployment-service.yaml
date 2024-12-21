@@ -1,31 +1,31 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-node-app
+  name: tiktakapp-deployment
 spec:
-  replicas: 2 # Adjust the number of replicas based on your needs
+  replicas: 3 # Number of Nginx pods to run
   selector:
     matchLabels:
-      app: my-node-app
+      app: tiktak
   template:
     metadata:
       labels:
-        app: my-node-app
+        app: tiktak
     spec:
       containers:
-      - name: my-node-app-container
-        image: praveenkumar90400/tiktakapp:latest # Replace with your Docker image name
+      - name: tiktak
+        image: praveenkumar90400/tiktakapp:latest
         ports:
-        - containerPort: 8080
----
+        - containerPort: 80
 apiVersion: v1
 kind: Service
 metadata:
-  name: my-node-app-service
+  name: tiktak-service
 spec:
   selector:
-    app: my-node-app
+    app: tiktak
   ports:
   - protocol: TCP
     port: 80
-    targetPort: 8080
+    targetPort: 80
+  type: LoadBalancer # Or NodePort, depending on your needs
